@@ -244,8 +244,8 @@
       <h1>Masood Ahmad</h1>
       <p class="role">Software engineering student and Flutter/Next.js developer, with hands-on experience in business development. I build products and I build the client relationships that fund them.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="mailto:masoodkhalid3198@gmail.com">Email me</a>
-        <a class="btn btn-ghost" href="https://www.linkedin.com/in/masood-ahmad-khalid" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-primary" href="mailto:masoodkhalid3198@gmail.com" data-copy-email>Email me</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/masood-ahmad-khalid-171b30356" target="_blank" rel="noopener">LinkedIn</a>
         <a class="btn btn-ghost" href="tel:+923404647420">+92 340 4647420</a>
       </div>
       <div class="stat-row">
@@ -409,8 +409,8 @@
       <p>Open to Flutter/frontend development work, AI/ML learning opportunities, and new business
          partnerships.</p>
       <div class="contact-links">
-        <a class="btn btn-primary" href="mailto:masoodkhalid3198@gmail.com">masoodkhalid3198@gmail.com</a>
-        <a class="btn btn-ghost" href="https://www.linkedin.com/in/masood-ahmad-khalid" target="_blank" rel="noopener">LinkedIn profile</a>
+        <a class="btn btn-primary" href="mailto:masoodkhalid3198@gmail.com" data-copy-email>masoodkhalid3198@gmail.com</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/masood-ahmad-khalid-171b30356" target="_blank" rel="noopener">LinkedIn profile</a>
         <a class="btn btn-ghost" href="tel:+923404647420">+92 340 4647420</a>
       </div>
     </div>
@@ -431,6 +431,21 @@
     list.classList.remove('open');
     toggle.setAttribute('aria-expanded', 'false');
   }));
+
+  // email fallback: copy address to clipboard in case no mail app is configured
+  document.querySelectorAll('[data-copy-email]').forEach(el => {
+    el.addEventListener('click', async () => {
+      const email = el.getAttribute('href').replace('mailto:', '');
+      try {
+        await navigator.clipboard.writeText(email);
+        const toast = document.createElement('span');
+        toast.textContent = 'Email copied: ' + email;
+        toast.style.cssText = 'position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#F2B705;color:#14151A;padding:10px 16px;border-radius:6px;font-size:0.85rem;font-family:Inter,sans-serif;z-index:999;box-shadow:0 6px 20px rgba(0,0,0,.3);';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2200);
+      } catch (e) { /* clipboard unavailable, mailto link still attempts to fire */ }
+    });
+  });
 
   // scroll reveal
   const io = new IntersectionObserver((entries) => {
